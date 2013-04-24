@@ -36,10 +36,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataDestination.cs" />
-    <Compile Include="DataSource.cs" />
-    <Compile Include="IDataDestination.cs" />
-    <Compile Include="IDataSource.cs" />
+    <Compile Include="TextGateway\TextOutputGateway.cs" />
+    <Compile Include="TextGateway\TextInputGateway.cs" />
+    <Compile Include="TextGateway\ITextOutputGateway.cs" />
+    <Compile Include="TextGateway\ITextInputGateway.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramScenario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

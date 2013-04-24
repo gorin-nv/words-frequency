@@ -1,4 +1,6 @@
 ﻿using System;
+using WordsAutocomplete.TextGateway;
+using WordsFrequency;
 
 namespace WordsAutocomplete
 {
@@ -6,9 +8,10 @@ namespace WordsAutocomplete
     {
         static void Main()
         {
-            var dataSource = new DataSource();
-            var dataDestination = new DataDestination();
-            var programScenario = new ProgramScenario(dataSource, dataDestination);
+            var dataSource = new TextInputGateway();
+            var dataDestination = new TextOutputGateway();
+            var dictionary = new WordsFrequencyDictionary();
+            var programScenario = new ProgramScenario(dataSource, dataDestination, dictionary);
             try
             {
                 programScenario.Execute();
