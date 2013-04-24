@@ -53,7 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProgramScenarioTests.cs" />
+    <Compile Include="ConvertionScenarioTests.cs" />
+    <Compile Include="DataDestinationTests.cs" />
+    <Compile Include="DataSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

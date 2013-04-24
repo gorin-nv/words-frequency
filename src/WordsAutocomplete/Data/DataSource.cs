@@ -4,34 +4,26 @@ using System.Linq;
 using WordsAutocomplete.TextGateway;
 using WordsFrequency;
 
-namespace WordsAutocomplete
+namespace WordsAutocomplete.Data
 {
-    public class ProgramScenario
+    public class DataSource : IDataSource
     {
-        private class DictionaryItem
-        {
-            public string Word { get; set; }
-            public uint Count { get; set; }
-        }
-
         private readonly ITextInputGateway _textInput;
-        private readonly ITextOutputGateway _textOutput;
-        private readonly IWordsFrequencyDictionary _dictionary;
 
-        public ProgramScenario(ITextInputGateway textInput, ITextOutputGateway textOutput, IWordsFrequencyDictionary dictionary)
+        public DataSource(ITextInputGateway textInput)
         {
             _textInput = textInput;
-            _textOutput = textOutput;
-            _dictionary = dictionary;
         }
 
-        public void Execute()
+        public IEnumerable<DictionaryItem> GetDictionaryItems()
         {
             var dictionaryLength = GetDictionaryLength();
-            foreach (var dictionaryItem in GetDictionary(dictionaryLength))
-            {
-                _dictionary.AddWord(dictionaryItem.Word, dictionaryItem.Count);
-            }
+            return GetDictionary(dictionaryLength);
+        }
+
+        public IEnumerable<string> GetWordOpenings()
+        {
+            throw new NotImplementedException();
         }
 
         private uint GetDictionaryLength()
@@ -72,7 +64,7 @@ namespace WordsAutocomplete
 
         private DictionaryItem ConvertToDictionaryItem(string dictionaryItemRaw)
         {
-            var parts = dictionaryItemRaw.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = dictionaryItemRaw.Split(new[] { ' ' });
             if (parts.Length != 2)
                 return null;
             if (parts[0].All(Char.IsLetter) == false)
@@ -80,7 +72,7 @@ namespace WordsAutocomplete
             uint count;
             if (uint.TryParse(parts[1], out count) == false)
                 return null;
-            return new DictionaryItem {Word = parts[0], Count = count};
+            return new DictionaryItem(parts[0], count);
         }
     }
 }

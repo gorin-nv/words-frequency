@@ -1,7 +1,10 @@
-﻿namespace WordsFrequency
+﻿using System.Collections.Generic;
+
+namespace WordsFrequency
 {
     public interface IWordsFrequencyDictionary
     {
-        void AddWord(string word, uint count);
+        void AddWord(DictionaryItem item);
+        IEnumerable<string> GetWordVariants(WordQuery query);
     }
 }

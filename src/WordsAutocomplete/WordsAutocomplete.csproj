@@ -34,14 +34,19 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConvertionScenario.cs" />
+    <Compile Include="Data\DataDestination.cs" />
+    <Compile Include="Data\IDataDestination.cs" />
+    <Compile Include="Data\IDataSource.cs" />
     <Compile Include="TextGateway\TextOutputGateway.cs" />
     <Compile Include="TextGateway\TextInputGateway.cs" />
     <Compile Include="TextGateway\ITextOutputGateway.cs" />
     <Compile Include="TextGateway\ITextInputGateway.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProgramScenario.cs" />
+    <Compile Include="Data\DataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

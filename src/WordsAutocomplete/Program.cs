@@ -1,4 +1,5 @@
 ﻿using System;
+using WordsAutocomplete.Data;
 using WordsAutocomplete.TextGateway;
 using WordsFrequency;
 
@@ -8,13 +9,13 @@ namespace WordsAutocomplete
     {
         static void Main()
         {
-            var dataSource = new TextInputGateway();
-            var dataDestination = new TextOutputGateway();
-            var dictionary = new WordsFrequencyDictionary();
-            var programScenario = new ProgramScenario(dataSource, dataDestination, dictionary);
             try
             {
-                programScenario.Execute();
+                var dataSource = new DataSource(new TextInputGateway());
+                var dataDestination = new DataDestination(new TextOutputGateway());
+                var dictionary = new WordsFrequencyDictionary();
+                var scenario = new ConvertionScenario();
+                scenario.Execute(dataSource, dataDestination, dictionary);
             }
             catch (Exception ex)
             {
