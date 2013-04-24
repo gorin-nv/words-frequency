@@ -9,70 +9,82 @@ namespace WordsAutocomplete.Data
     public class DataSource : IDataSource
     {
         private readonly ITextInputGateway _textInput;
+        private int _lineNumber;
 
         public DataSource(ITextInputGateway textInput)
         {
             _textInput = textInput;
+            _lineNumber = -1;
         }
 
         public IEnumerable<DictionaryItem> GetDictionaryItems()
         {
-            var dictionaryLength = GetDictionaryLength();
-            return GetDictionary(dictionaryLength);
+            var dictionaryLength = GetLength("количество слов в частотном словаре");
+            return GetItems(dictionaryLength, ConvertToDictionaryItem, "частостный словарь");
         }
 
         public IEnumerable<string> GetWordOpenings()
         {
-            throw new NotImplementedException();
+            var wordOpeningsLength = GetLength("количество начал слов");
+            return GetItems(wordOpeningsLength, ConvertToWordOpening, "список начал слов");
         }
 
-        private uint GetDictionaryLength()
+        private string ReadString()
         {
-            uint dictionaryLength;
-            var dictionaryLengthRaw = _textInput.ReadString();
-            if (uint.TryParse(dictionaryLengthRaw, out dictionaryLength) == false || dictionaryLength == 0)
+            _lineNumber += 1;
+            return _textInput.ReadString();
+        }
+
+        private uint GetLength(string valueDescription)
+        {
+            uint length;
+            var lengthRaw = ReadString();
+            if (uint.TryParse(lengthRaw, out length) == false || length == 0)
             {
-                throw new Exception(CreateErrorMessage("Количество слов в частотном словаре должно быть положительным числом", 0, dictionaryLengthRaw));
+                throw new Exception(CreateErrorMessage(valueDescription + " должно быть целым положительным числом", lengthRaw));
             }
-            return dictionaryLength;
+            return length;
         }
 
-        private IEnumerable<DictionaryItem> GetDictionary(uint dictionaryLength)
+        private IEnumerable<T> GetItems<T>(uint itemsCount, Func<string, T> factory, string itemDescription)
         {
-            for (var i = 1u; i <= dictionaryLength; i++)
+            for (var i = 1u; i <= itemsCount; i++)
             {
-                var dictionaryItemRaw = _textInput.ReadString();
-                if (dictionaryItemRaw == null)
+                var itemRaw = ReadString();
+                if (itemRaw == null)
                     throw new Exception(CreateErrorMessage(
-                        string.Format("Частостный словарь должен содержать {0} строк, но содержит {1}", dictionaryLength, i),
-                        i + 1, null));
+                        string.Format("{0}: должен содержать {1} строк, но содержит {2}", itemDescription, itemsCount, i)));
 
-                var item = ConvertToDictionaryItem(dictionaryItemRaw);
-                if(item == null)
-                    throw new Exception(CreateErrorMessage(
-                        "В строке частотного словаря должно быть слово и количество использований слова, разделенные пробелом",
-                        i + 1, null));
-
+                var item = factory(itemRaw);
                 yield return item;
             }
         }
 
-        private string CreateErrorMessage(string details, uint lineNumber, string line)
-        {
-            return string.Format("{0}, номер строки: {1}, строка: \"{2}\"", details, lineNumber, line);
-        }
-
         private DictionaryItem ConvertToDictionaryItem(string dictionaryItemRaw)
         {
+            const string errorMessage = "в строке частотного словаря должно быть слово и количество использований слова, разделенные пробелом";
+
             var parts = dictionaryItemRaw.Split(new[] { ' ' });
             if (parts.Length != 2)
-                return null;
+                throw new Exception(CreateErrorMessage(errorMessage));
             if (parts[0].All(Char.IsLetter) == false)
-                return null;
+                throw new Exception(CreateErrorMessage(errorMessage));
             uint count;
             if (uint.TryParse(parts[1], out count) == false)
-                return null;
+                throw new Exception(CreateErrorMessage(errorMessage));
             return new DictionaryItem(parts[0], count);
+        }
+
+        private string ConvertToWordOpening(string wordOpeningRaw)
+        {
+            if (wordOpeningRaw.All(Char.IsLetter) == false)
+                throw new Exception(CreateErrorMessage("начало слова должно состоять только из букв"));
+            return wordOpeningRaw;
+        }
+
+        private string CreateErrorMessage(string details, string line = null)
+        {
+            return string.Format("{0}, номер строки: {1}, строка: \"{2}\"", details, _lineNumber, line);
         }
     }
 }
