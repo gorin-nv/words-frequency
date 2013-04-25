@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WordsFrequency
+namespace WordsFrequency.Contract
 {
     public interface IWordsFrequencyDictionary
     {

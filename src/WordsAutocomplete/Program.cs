@@ -4,6 +4,7 @@ using System.IO;
 using WordsAutocomplete.Data;
 using WordsAutocomplete.TextGateway;
 using WordsFrequency;
+using WordsFrequency.Contract;
 
 namespace WordsAutocomplete
 {

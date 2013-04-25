@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using WordsAutocomplete.Data;
 using WordsFrequency;
+using WordsFrequency.Contract;
 
 namespace WordsAutocomplete.Tests
 {

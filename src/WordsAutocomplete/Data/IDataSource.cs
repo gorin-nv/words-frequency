@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WordsFrequency;
+using WordsFrequency.Contract;
 
 namespace WordsAutocomplete.Data
 {

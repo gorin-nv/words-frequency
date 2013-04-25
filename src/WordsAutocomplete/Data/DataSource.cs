@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WordsAutocomplete.TextGateway;
 using WordsFrequency;
+using WordsFrequency.Contract;
 
 namespace WordsAutocomplete.Data
 {
