@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WordsFrequency.WordTree
 {
@@ -28,8 +29,9 @@ namespace WordsFrequency.WordTree
 
         public void AddWord(IEnumerator<char> word, uint count)
         {
-            if(word.MoveNext() == false)
-                return;
+            if (word.MoveNext() == false)
+                throw new Exception("слово уже было добавлено");
+
             var key = word.Current;
             LetterNode node;
             if (_nodes.TryGetValue(key, out node) == false)
@@ -37,7 +39,7 @@ namespace WordsFrequency.WordTree
                 node = new LetterNode();
                 _nodes[key] = node;
             }
-            node.AddWord(word, count);
+            node.AddWordTail(word, count);
         }
     }
 }

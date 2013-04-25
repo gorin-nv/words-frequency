@@ -2,6 +2,23 @@
 
 namespace WordsFrequency.WordTree
 {
+    public class Root
+    {
+        public Root()
+        {
+            Variants = new LetterVariants();
+        }
+
+        public LetterVariants Variants { get; private set; }
+
+        public void AddWord(string word, uint weight)
+        {
+            if (string.IsNullOrEmpty(word))
+                return;
+            Variants.AddWord(word.GetEnumerator(), weight);
+        }
+    }
+
     public class LetterNode
     {
         public LetterNode()
@@ -13,14 +30,12 @@ namespace WordsFrequency.WordTree
         public uint Weight { get; private set; }
         public LetterVariants Variants { get; private set; }
 
-        public void ChangeWeight(uint diff)
+        public void AddWordTail(IEnumerator<char> word, uint count)
         {
-            Weight += diff;
-        }
+            if (word.MoveNext() == false)
+                return;
 
-        public void AddWord(IEnumerator<char> word, uint count)
-        {
-            ChangeWeight(count);
+            Weight += count;
             Variants.AddWord(word, count);
         }
     }

@@ -6,16 +6,16 @@ namespace WordsFrequency.Impl
 {
     public class WordsFrequencyDictionary : IWordsFrequencyDictionary
     {
-        private readonly LetterVariants _letterVariants;
+        private readonly Root _root;
 
         public WordsFrequencyDictionary()
         {
-            _letterVariants = new LetterVariants();
+            _root = new Root();
         }
 
         public void AddWord(DictionaryItem item)
         {
-            _letterVariants.AddWord(item.Word.GetEnumerator(), item.Count);
+            _root.AddWord(item.Word, item.Count);
         }
 
         public IEnumerable<string> GetWordVariants(WordQuery query)
