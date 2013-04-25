@@ -24,64 +24,41 @@ namespace WordsAutocomplete.Tests
         [Test]
         [Sequential]
         public void GetDictionaryItems_should_fail_when_dictionary_items_not_started_with_uint(
-            [Values(
-                "not integer string",
-                "-3",
-                "0")] string dictionaryLength)
+            [Values("not integer string", "-3", "0")] string dictionaryLength)
         {
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(dictionaryLength);
+            SetupInputText(dictionaryLength);
 
-            Action execute = () => _dataSource.GetDictionaryItems().ToList();
+            Action readDictionary = () => _dataSource.GetDictionaryItems().ToList();
 
-            execute.ShouldThrow<Exception>();
+            readDictionary.ShouldThrow<Exception>();
         }
 
         [Test]
         public void GetDictionaryItems_should_fail_when_source_dictionary_length_is_not_correct()
         {
-            var source = new[] {"3", "a 1", "b 2"};
-            var iter = 0;
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(() => source[iter++]);
+            SetupInputText("3", "a 1", "b 2");
 
-            Action execute = () => _dataSource.GetDictionaryItems().ToList();
+            Action readDictionary = () => _dataSource.GetDictionaryItems().ToList();
 
-            execute.ShouldThrow<Exception>();
+            readDictionary.ShouldThrow<Exception>();
         }
 
         [Test]
         [Sequential]
         public void GetDictionaryItems_should_fail_when_dictionary_line_is_not_correct(
-            [Values(
-                new[] { "3", "a 1", "", "c 3"},
-                new[] { "3", "a 1", "x", "c 3"},
-                new[] { "3", "a 1", "x y", "c 3"},
-                new[] { "3", "a 1", "12", "c 3"},
-                new[] { "3", "a 1", "1 2", "c 3"},
-                new[] { "3", "a 1", "a 2 ", "c 3"}
-                )] string[] source)
+            [Values("", "x", "x y", "12", "1 2", "a 2 ")] string incorrectLine)
         {
-            var iter = 0;
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(() => source[iter++]);
+            SetupInputText("3", "a 1", incorrectLine, "c 3");
 
-            Action execute = () => _dataSource.GetDictionaryItems().ToList();
+            Action readDictionary = () => _dataSource.GetDictionaryItems().ToList();
 
-            execute.ShouldThrow<Exception>();
+            readDictionary.ShouldThrow<Exception>();
         }
 
         [Test]
         public void GetDictionaryItems_should_return_dictionary_items()
         {
-            var source = new[] {"3", "a 1", "b 2", "c 3"};
-            var iter = 0;
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(() => source[iter++]);
+            SetupInputText("3", "a 1", "b 2", "c 3");
 
             var dictionaryItems = _dataSource.GetDictionaryItems().ToList();
 
@@ -96,49 +73,55 @@ namespace WordsAutocomplete.Tests
         [Test]
         [Sequential]
         public void GetWordOpenings_should_fail_when_words_opening_not_started_with_uint(
-            [Values(
-                "not integer string",
-                "-3",
-                "0")] string wordsOpeningLength)
+            [Values("not integer string", "-3", "0")] string wordsOpeningLength)
         {
-            var source = new[] {"3", "a 1", "b 2", "c 3", wordsOpeningLength};
-            var iter = 0;
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(() => source[iter++]);
-            _dataSource.GetDictionaryItems().ToList();
+            SetupInputText(wordsOpeningLength);
 
-            Action execute = () => _dataSource.GetWordOpenings().ToList();
+            Action readWords = () => _dataSource.GetWordOpenings().ToList();
 
-            execute.ShouldThrow<Exception>();
+            readWords.ShouldThrow<Exception>();
         }
 
         [Test]
         public void GetWordOpenings_should_fail_when_words_openings_length_is_not_correct()
         {
-            var source = new[] { "3", "a 1", "b 2", "c 3", "2", "a" };
-            var iter = 0;
-            Mock.Get(_textInput)
-                .Setup(src => src.ReadString())
-                .Returns(() => source[iter++]);
-            _dataSource.GetDictionaryItems().ToList();
+            SetupInputText("3", "a", "b");
 
-            Action execute = () => _dataSource.GetWordOpenings().ToList();
+            Action readWords = () => _dataSource.GetWordOpenings().ToList();
 
-            execute.ShouldThrow<Exception>();
+            readWords.ShouldThrow<Exception>();
         }
 
         [Test]
         [Sequential]
-        public void GetWordOpenings_should_fail_when_word_opening_is_not_correct()
+        public void GetWordOpenings_should_fail_when_word_opening_is_not_correct(
+            [Values("", "1", "b2", " b ")] string incorrectWordOpening)
         {
-            throw new NotImplementedException();
+            SetupInputText("3", "a", incorrectWordOpening, "c");
+
+            Action readWords = () => _dataSource.GetWordOpenings().ToList();
+
+            readWords.ShouldThrow<Exception>();
         }
 
         [Test]
         public void GetWordOpenings_should_return_word_openings()
         {
-            throw new NotImplementedException();
+            SetupInputText("3", "a", "b", "c");
+
+            var words = _dataSource.GetWordOpenings().ToList();
+
+            words.ElementAt(0).Should().Be("a");
+            words.ElementAt(1).Should().Be("b");
+            words.ElementAt(2).Should().Be("c");
+        }
+
+        private void SetupInputText(params string[] source)
+        {
+            var iter = 0;
+            Mock.Get(_textInput)
+                .Setup(src => src.ReadString())
+                .Returns(() => source[iter++]);
         }
     }
 }

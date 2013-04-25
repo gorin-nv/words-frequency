@@ -34,9 +34,7 @@ namespace WordsAutocomplete.Tests
         [Test]
         [Sequential]
         public void WriteWords_should_not_write_when_words_is_null_or_empty(
-            [Values(
-                new string[0],
-                (string[])null)] string[] words)
+            [Values(new string[0], (string[])null)] string[] words)
         {
             _dataDestination.WriteWords(words);
 
@@ -47,10 +45,10 @@ namespace WordsAutocomplete.Tests
         [Test]
         public void WriteWords_should_add_empty_string_before_new_words_portion()
         {
-            var words = new string[] { "a", "b", "c" };
+            var words = new[] { "a", "b", "c" };
             _dataDestination.WriteWords(words);
             
-            var newWordsPortion = new string[] { "d", "e", "f" };
+            var newWordsPortion = new[] { "d", "e", "f" };
             _dataDestination.WriteWords(newWordsPortion);
 
             var textOutputMock = Mock.Get(_textOutput);

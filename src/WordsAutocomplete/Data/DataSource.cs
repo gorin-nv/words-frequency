@@ -62,22 +62,19 @@ namespace WordsAutocomplete.Data
 
         private DictionaryItem ConvertToDictionaryItem(string dictionaryItemRaw)
         {
-            const string errorMessage = "в строке частотного словаря должно быть слово и количество использований слова, разделенные пробелом";
-
             var parts = dictionaryItemRaw.Split(new[] { ' ' });
-            if (parts.Length != 2)
-                throw new Exception(CreateErrorMessage(errorMessage));
-            if (parts[0].All(Char.IsLetter) == false)
-                throw new Exception(CreateErrorMessage(errorMessage));
             uint count;
-            if (uint.TryParse(parts[1], out count) == false)
-                throw new Exception(CreateErrorMessage(errorMessage));
+            if (parts.Length != 2 ||
+                parts[0].All(Char.IsLetter) == false ||
+                uint.TryParse(parts[1], out count) == false)
+                throw new Exception(CreateErrorMessage("в строке частотного словаря должно быть слово и количество использований слова, разделенные пробелом"));
             return new DictionaryItem(parts[0], count);
         }
 
         private string ConvertToWordOpening(string wordOpeningRaw)
         {
-            if (wordOpeningRaw.All(Char.IsLetter) == false)
+            if (string.IsNullOrEmpty(wordOpeningRaw) ||
+                wordOpeningRaw.All(Char.IsLetter) == false)
                 throw new Exception(CreateErrorMessage("начало слова должно состоять только из букв"));
             return wordOpeningRaw;
         }
