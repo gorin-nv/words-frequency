@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System;
+using Moq;
 using NUnit.Framework;
 using WordsAutocomplete.Data;
 using WordsAutocomplete.TextGateway;
@@ -10,18 +11,20 @@ namespace WordsAutocomplete.Tests
     {
         private DataDestination _dataDestination;
         private ITextOutputGateway _textOutput;
+        private Lazy<ITextOutputGateway> _textOutputProxy;
 
         [SetUp]
         public void SetUp()
         {
             _textOutput = Mock.Of<ITextOutputGateway>();
-            _dataDestination = new DataDestination(_textOutput);
+            _textOutputProxy = new Lazy<ITextOutputGateway>(() => _textOutput);
+            _dataDestination = new DataDestination(_textOutputProxy);
         }
 
         [Test]
         public void WriteWords_should_write_each_text_in_new_line()
         {
-            var words = new string[] {"a", "b", "c"};
+            var words = new[] {"a", "b", "c"};
 
             _dataDestination.WriteWords(words);
 
@@ -59,6 +62,17 @@ namespace WordsAutocomplete.Tests
             textOutputMock.Verify(x => x.WriteString("d"));
             textOutputMock.Verify(x => x.WriteString("e"));
             textOutputMock.Verify(x => x.WriteString("f"));
+        }
+
+        [Test]
+        public void Dispose_should_free_output_gateway()
+        {
+            var source = _textOutputProxy.Value;
+
+            _dataDestination.Dispose();
+
+            Mock.Get(_textOutput)
+                .Verify(x => x.Dispose());
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace WordsAutocomplete.TextGateway
+﻿using System;
+
+namespace WordsAutocomplete.TextGateway
 {
-    public interface ITextOutputGateway
+    public interface ITextOutputGateway : IDisposable
     {
         void WriteString(string text);
     }

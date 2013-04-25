@@ -41,8 +41,8 @@
     <Compile Include="Data\DataDestination.cs" />
     <Compile Include="Data\IDataDestination.cs" />
     <Compile Include="Data\IDataSource.cs" />
-    <Compile Include="TextGateway\TextOutputGateway.cs" />
-    <Compile Include="TextGateway\TextInputGateway.cs" />
+    <Compile Include="TextGateway\FileOutputGateway.cs" />
+    <Compile Include="TextGateway\FileInputGateway.cs" />
     <Compile Include="TextGateway\ITextOutputGateway.cs" />
     <Compile Include="TextGateway\ITextInputGateway.cs" />
     <Compile Include="Program.cs" />

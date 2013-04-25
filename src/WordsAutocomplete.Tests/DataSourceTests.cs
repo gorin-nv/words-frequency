@@ -13,12 +13,14 @@ namespace WordsAutocomplete.Tests
     {
         private DataSource _dataSource;
         private ITextInputGateway _textInput;
+        private Lazy<ITextInputGateway> _textInputProxy;
 
         [SetUp]
         public void SetUp()
         {
             _textInput = Mock.Of<ITextInputGateway>();
-            _dataSource = new DataSource(_textInput);
+            _textInputProxy = new Lazy<ITextInputGateway>(() => _textInput);
+            _dataSource = new DataSource(_textInputProxy);
         }
 
         [Test]
@@ -114,6 +116,17 @@ namespace WordsAutocomplete.Tests
             words.ElementAt(0).Should().Be("a");
             words.ElementAt(1).Should().Be("b");
             words.ElementAt(2).Should().Be("c");
+        }
+
+        [Test]
+        public void Dispose_should_free_input_gateway()
+        {
+            var inputSource = _textInputProxy.Value;
+
+            _dataSource.Dispose();
+
+            Mock.Get(_textInput)
+                .Verify(x => x.Dispose());
         }
 
         private void SetupInputText(params string[] source)

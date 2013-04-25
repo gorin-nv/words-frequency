@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WordsAutocomplete.TextGateway;
 
 namespace WordsAutocomplete.Data
 {
     public class DataDestination : IDataDestination
     {
-        private readonly ITextOutputGateway _textOutput;
+        private readonly Lazy<ITextOutputGateway> _textOutputProxy;
         private bool _hasPreviousWritting;
 
-        public DataDestination(ITextOutputGateway textOutput)
+        public DataDestination(Lazy<ITextOutputGateway> textOutputProxy)
         {
-            _textOutput = textOutput;
+            _textOutputProxy = textOutputProxy;
             _hasPreviousWritting = false;
         }
 
@@ -24,7 +25,7 @@ namespace WordsAutocomplete.Data
 
             if (_hasPreviousWritting)
             {
-                _textOutput.WriteString(string.Empty);
+                _textOutputProxy.Value.WriteString(string.Empty);
             }
             else
             {
@@ -33,8 +34,16 @@ namespace WordsAutocomplete.Data
 
             do
             {
-                _textOutput.WriteString(enumerator.Current);
+                _textOutputProxy.Value.WriteString(enumerator.Current);
             } while (enumerator.MoveNext());
+        }
+
+        public void Dispose()
+        {
+            if (_textOutputProxy.IsValueCreated)
+            {
+                _textOutputProxy.Value.Dispose();
+            }
         }
     }
 }

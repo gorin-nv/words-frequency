@@ -8,12 +8,12 @@ namespace WordsAutocomplete.Data
 {
     public class DataSource : IDataSource
     {
-        private readonly ITextInputGateway _textInput;
+        private readonly Lazy<ITextInputGateway> _textInputProxy;
         private int _lineNumber;
 
-        public DataSource(ITextInputGateway textInput)
+        public DataSource(Lazy<ITextInputGateway> textInputProxy)
         {
-            _textInput = textInput;
+            _textInputProxy = textInputProxy;
             _lineNumber = -1;
         }
 
@@ -29,10 +29,12 @@ namespace WordsAutocomplete.Data
             return GetItems(wordOpeningsLength, ConvertToWordOpening, "список начал слов");
         }
 
-        private string ReadString()
+        public void Dispose()
         {
-            _lineNumber += 1;
-            return _textInput.ReadString();
+            if (_textInputProxy.IsValueCreated)
+            {
+                _textInputProxy.Value.Dispose();
+            }
         }
 
         private uint GetLength(string valueDescription)
@@ -58,6 +60,12 @@ namespace WordsAutocomplete.Data
                 var item = factory(itemRaw);
                 yield return item;
             }
+        }
+
+        private string ReadString()
+        {
+            _lineNumber += 1;
+            return _textInputProxy.Value.ReadString();
         }
 
         private DictionaryItem ConvertToDictionaryItem(string dictionaryItemRaw)

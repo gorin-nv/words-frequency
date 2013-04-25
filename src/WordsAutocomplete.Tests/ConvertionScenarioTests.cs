@@ -37,7 +37,7 @@ namespace WordsAutocomplete.Tests
                 .Setup(src => src.GetDictionaryItems())
                 .Returns(items);
 
-            _scenario.Execute(_dataSource, _dataDestination, _dictionary);
+            _scenario.Execute(() => _dataSource, () => _dataDestination, _dictionary);
 
             var dicrionaryMock = Mock.Get(_dictionary);
             dicrionaryMock.Verify(d => d.AddWord(items[0]));
@@ -64,7 +64,7 @@ namespace WordsAutocomplete.Tests
                 .Setup(d => d.GetWordVariants(queries[1]))
                 .Returns(wordVariants[1]);
 
-            _scenario.Execute(_dataSource, _dataDestination, _dictionary);
+            _scenario.Execute(() => _dataSource, () => _dataDestination, _dictionary);
 
             Func<WordQuery, WordQuery, bool> wordQueryEquals = (query1, query2) =>
                                                                query1.WordOpening == query2.WordOpening &&
@@ -75,6 +75,17 @@ namespace WordsAutocomplete.Tests
             var destinationMock = Mock.Get(_dataDestination);
             destinationMock.Verify(dst => dst.WriteWords(wordVariants[0]));
             destinationMock.Verify(dst => dst.WriteWords(wordVariants[1]));
+        }
+
+        [Test]
+        public void Execute_should_dispose_sources()
+        {
+            _scenario.Execute(() => _dataSource, () => _dataDestination, _dictionary);
+
+            Mock.Get(_dataSource)
+                .Verify(src => src.Dispose());
+            Mock.Get(_dataDestination)
+                .Verify(dst => dst.Dispose());
         }
     }
 }
