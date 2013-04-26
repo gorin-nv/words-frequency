@@ -46,7 +46,18 @@ namespace WordsFrequency.WordTree
 
         public LetterNode FindNode(WordIterator wordIterator)
         {
-            throw new NotImplementedException();
+            wordIterator.Next();
+            var key = wordIterator.Current;
+            LetterNode node;
+            if (_nodes.TryGetValue(key, out node) == false)
+            {
+                return null;
+            }
+            if (wordIterator.HasNext == false)
+            {
+                return node;
+            }
+            return node.Variants.FindNode(wordIterator);
         }
     }
 }

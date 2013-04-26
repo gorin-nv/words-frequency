@@ -62,5 +62,27 @@ namespace WordsFrequency.Tests
             abc.Weight.Should().Be(10);
             abc.Variants.IsEmpty.Should().BeTrue();
         }
+
+        [Test]
+        public void FindNode_should_return_node()
+        {
+            var root = new Root();
+            root.AddWord("abc", 5);
+            var expectedNode = root.Variants['a'].Variants['b'];
+
+            var actualNode = root.FindNodeForPrefix("ab");
+
+            actualNode.Should().Be(expectedNode);
+        }
+
+        [Test]
+        [Sequential]
+        public void FindNode_should_return_null_when_node_not_found([Values("ad", "abce")] string prefix)
+        {
+            var root = new Root();
+            root.AddWord("abc", 5);
+
+            root.FindNodeForPrefix(prefix).Should().Be(null);
+        }
     }
 }
