@@ -20,6 +20,7 @@ namespace WordsFrequency.Impl
 
         public IEnumerable<string> GetWordVariants(WordQuery query)
         {
+            var prefixNode = _root.FindNodeForPrefix(query.WordOpening);
             throw new System.NotImplementedException();
         }
     }

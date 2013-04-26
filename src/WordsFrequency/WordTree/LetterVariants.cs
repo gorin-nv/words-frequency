@@ -27,19 +27,26 @@ namespace WordsFrequency.WordTree
             get { return _nodes.Count == 0; }
         }
 
-        public void AddWord(IEnumerator<char> word, uint count)
+        public void AddWord(WordIterator wordIterator, uint count)
         {
-            if (word.MoveNext() == false)
-                throw new Exception("слово уже было добавлено");
-
-            var key = word.Current;
+            wordIterator.Next();
+            var key = wordIterator.Current;
             LetterNode node;
             if (_nodes.TryGetValue(key, out node) == false)
             {
                 node = new LetterNode();
                 _nodes[key] = node;
             }
-            node.AddWordTail(word, count);
+            node.AddWeight(count);
+            if (wordIterator.HasNext)
+            {
+                node.Variants.AddWord(wordIterator, count);
+            }
+        }
+
+        public LetterNode FindNode(WordIterator wordIterator)
+        {
+            throw new NotImplementedException();
         }
     }
 }

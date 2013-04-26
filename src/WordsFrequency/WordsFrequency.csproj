@@ -41,6 +41,8 @@
     <Compile Include="Contract\IWordsFrequencyDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordTree\LetterNode.cs" />
+    <Compile Include="WordTree\Root.cs" />
+    <Compile Include="WordTree\WordIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

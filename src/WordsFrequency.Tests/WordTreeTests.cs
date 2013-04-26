@@ -19,17 +19,6 @@ namespace WordsFrequency.Tests
         }
 
         [Test]
-        public void AddWord_should_fail_when_word_already_added()
-        {
-            var root = new Root();
-            root.AddWord("abc", 10);
-
-            Action addNode = () => root.AddWord("abc", 10);
-
-            addNode.ShouldThrow<Exception>();
-        }
-
-        [Test]
         public void AddWord_should_create_node_when_not_found()
         {
             var root = new Root();
@@ -49,7 +38,7 @@ namespace WordsFrequency.Tests
             root.AddWord("ab", 10);
 
             root.Variants.ContainsKey('a').Should().BeTrue();
-            root.Variants['a'].Weight.Should().Be(15);
+            root.Variants['a'].Weight.Should().Be(5+10);
         }
 
         [Test]
@@ -62,7 +51,7 @@ namespace WordsFrequency.Tests
 
             root.Variants.ContainsKey('a').Should().BeTrue();
             var a = root.Variants['a'];
-            a.Weight.Should().Be(15);
+            a.Weight.Should().Be(5+10);
 
             a.Variants.ContainsKey('b').Should().BeTrue();
             var ab = a.Variants['b'];
