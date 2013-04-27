@@ -7,21 +7,27 @@ namespace WordsFrequency.Impl
 {
     public class WordsFrequencyDictionary : IWordsFrequencyDictionary
     {
-        private readonly Root _root;
+        private readonly RootNode _rootNode;
 
         public WordsFrequencyDictionary()
         {
-            _root = new Root();
+            _rootNode = new RootNode();
         }
 
         public void AddWord(DictionaryItem item)
         {
-            _root.AddWord(item.Word, item.Count);
+            if (string.IsNullOrEmpty(item.Word))
+                return;
+            var wordIterator = new WordIterator(item.Word);
+            _rootNode.AddWord(wordIterator, item.Count);
         }
 
         public IEnumerable<string> GetWordVariants(WordQuery query)
         {
-            var prefixNode = _root.FindNodeForPrefix(query.WordOpening);
+            if (string.IsNullOrEmpty(query.WordOpening))
+                return null;
+            var wordIterator = new WordIterator(query.WordOpening);
+            var prefixNode = _rootNode.FindNode(wordIterator);
             if (prefixNode == null)
             {
                 return new string[0];
@@ -35,19 +41,26 @@ namespace WordsFrequency.Impl
             var prevNodes = new List<LetterNode> {prefixNode};
             while (prevNodes.Count > 0)
             {
-                var nodes = prevNodes
-                    .SelectMany(n => n.Variants.Nodes)
-                    .OrderByDescending(n => n.Weight)
-                    .Take((int) query.MaximumVarinatsCount)
+                var currentNodes = prevNodes
+                    .SelectMany(n => n.Nodes)
                     .ToList();
-                foreach (var node in nodes.Where(n => n.IsWord))
+
+                var wordNodes = currentNodes
+                    .Where(n => n.IsWord)
+                    .OrderByDescending(n => n.WordWeight)
+                    .Take((int)query.MaximumVarinatsCount);
+                foreach (var node in wordNodes)
                 {
                     storage.Add(node);
                 }
-                prevNodes = nodes;
+
+                prevNodes = currentNodes
+                    .OrderByDescending(n => n.VariantsWeight)
+                    .Take((int)query.MaximumVarinatsCount)
+                    .ToList();
             }
             return storage.Words
-                .OrderByDescending(n => n.Weight)
+                .OrderByDescending(n => n.WordWeight)
                 .Select(n => n.Word);
         }
     }

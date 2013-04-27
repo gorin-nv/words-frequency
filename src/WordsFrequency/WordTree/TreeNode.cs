@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using WordsFrequency.Impl;
 
 namespace WordsFrequency.WordTree
 {
-    public class LetterVariants
+    public abstract class TreeNode
     {
         private readonly List<LetterNode> _nodes = new List<LetterNode>();
 
@@ -12,24 +13,24 @@ namespace WordsFrequency.WordTree
             get { return _nodes; }
         }
 
-        public void AddWord(WordIterator wordIterator, uint weight, LetterNode parent = null)
+        public void AddWord(WordIterator wordIterator, uint weight)
         {
             wordIterator.Next();
             var symbol = wordIterator.Current;
             var node = _nodes.FirstOrDefault(n => n.Symbol == symbol);
             if (node == null)
             {
-                node = new LetterNode(symbol, parent);
+                node = CreateChild(symbol);
                 _nodes.Add(node);
             }
-            node.TryUpWeight(weight);
+            node.TryUpVariantsWeight(weight);
             if (wordIterator.HasNext)
             {
-                node.Variants.AddWord(wordIterator, weight, node);
+                node.AddWord(wordIterator, weight);
             }
             else
             {
-                node.DeclareWord();
+                node.DeclareWord(weight);
             }
         }
 
@@ -41,8 +42,10 @@ namespace WordsFrequency.WordTree
             return node == null
                        ? null
                        : wordIterator.HasNext
-                             ? node.Variants.FindNode(wordIterator)
+                             ? node.FindNode(wordIterator)
                              : node;
         }
+
+        protected abstract LetterNode CreateChild(char symbol);
     }
 }

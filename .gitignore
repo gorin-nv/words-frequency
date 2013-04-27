@@ -12,3 +12,5 @@
 /src/packages/*
 /src/packages/*
 /src/packages/*
+/src/ExampleGenerator/bin
+/src/ExampleGenerator/obj
