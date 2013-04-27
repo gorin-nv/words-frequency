@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using WordsFrequency.WordTree;
 
-namespace WordsFrequency.WordTree
+namespace WordsFrequency.Impl
 {
     public class NodeStorage
     {

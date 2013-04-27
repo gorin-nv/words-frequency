@@ -35,14 +35,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\DictionaryItem.cs" />
-    <Compile Include="WordTree\LetterVariants.cs" />
     <Compile Include="Contract\WordQuery.cs" />
     <Compile Include="Impl\WordsFrequencyDictionary.cs" />
     <Compile Include="Contract\IWordsFrequencyDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordTree\LetterNode.cs" />
-    <Compile Include="WordTree\NodeStorage.cs" />
-    <Compile Include="WordTree\Root.cs" />
+    <Compile Include="Impl\NodeStorage.cs" />
+    <Compile Include="WordTree\RootNode.cs" />
+    <Compile Include="WordTree\TreeNode.cs" />
     <Compile Include="WordTree\WordIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

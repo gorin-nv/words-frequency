@@ -1,20 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WordsFrequency.WordTree
 {
-    public class LetterNode
+    public class LetterNode: TreeNode
     {
-        private LetterNode _parent;
+        private readonly LetterNode _parent;
 
-        public LetterNode(char symbol, LetterNode parent = null)
+        public LetterNode(char symbol, LetterNode parent)
         {
             Symbol = symbol;
-            Variants = new LetterVariants();
             _parent = parent;
         }
 
+        public LetterNode(char symbol)
+            : this(symbol, null)
+        {
+        }
+
         public char Symbol { get; private set; }
-        public LetterVariants Variants { get; private set; }
         public uint VariantsWeight { get; private set; }
         public uint WordWeight { get; private set; }
 
@@ -27,11 +31,15 @@ namespace WordsFrequency.WordTree
         {
             get
             {
-                if(_parent != null)
+                var current = this;
+                var chars = new List<char>();
+                while (current != null)
                 {
-                    return _parent.Word + Symbol;
+                    chars.Add(current.Symbol);
+                    current = current._parent;
                 }
-                return Symbol.ToString();
+                chars.Reverse();
+                return new string(chars.ToArray());
             }
         }
 
@@ -48,6 +56,11 @@ namespace WordsFrequency.WordTree
             {
                 VariantsWeight = weight;
             }
+        }
+
+        protected override LetterNode CreateChild(char symbol)
+        {
+            return new LetterNode(symbol, this);
         }
     }
 }
