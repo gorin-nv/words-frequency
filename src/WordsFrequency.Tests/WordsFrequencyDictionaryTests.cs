@@ -22,21 +22,21 @@ namespace WordsFrequency.Tests
 
             var variantsK = dictionary.GetWordVariants(new WordQuery("k", 10));
             variantsK.Should().HaveCount(4);
-            //variantsK.ElementAt(0).Should().Be("kanojo");
-            //variantsK.ElementAt(1).Should().Be("kare");
-            //variantsK.ElementAt(2).Should().Be("korosu");
-            //variantsK.ElementAt(3).Should().Be("karatachi");
+            variantsK.ElementAt(0).Should().Be("kanojo");
+            variantsK.ElementAt(1).Should().Be("kare");
+            variantsK.ElementAt(2).Should().Be("korosu");
+            variantsK.ElementAt(3).Should().Be("karetachi");
 
             var variantsKa = dictionary.GetWordVariants(new WordQuery("ka", 10));
             variantsKa.Should().HaveCount(3);
-            //variantsKa.ElementAt(0).Should().Be("kanojo");
-            //variantsKa.ElementAt(1).Should().Be("kare");
-            //variantsKa.ElementAt(2).Should().Be("karatachi");
+            variantsKa.ElementAt(0).Should().Be("kanojo");
+            variantsKa.ElementAt(1).Should().Be("kare");
+            variantsKa.ElementAt(2).Should().Be("karetachi");
 
             var variantsKar = dictionary.GetWordVariants(new WordQuery("kar", 10));
             variantsKar.Should().HaveCount(2);
-            //variantsKar.ElementAt(0).Should().Be("kare");
-            //variantsKar.ElementAt(1).Should().Be("karatachi");
+            variantsKar.ElementAt(0).Should().Be("kare");
+            variantsKar.ElementAt(1).Should().Be("karetachi");
         }
     }
 }

@@ -46,7 +46,9 @@ namespace WordsFrequency.Impl
                 }
                 prevNodes = nodes;
             }
-            return storage.Words.Select(n => "");
+            return storage.Words
+                .OrderByDescending(n => n.Weight)
+                .Select(n => n.Word);
         }
     }
 }

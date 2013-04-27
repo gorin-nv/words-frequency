@@ -4,16 +4,31 @@ namespace WordsFrequency.WordTree
 {
     public class LetterNode
     {
-        public LetterNode(char symbol)
+        private LetterNode _parent;
+
+        public LetterNode(char symbol, LetterNode parent = null)
         {
             Symbol = symbol;
             Variants = new LetterVariants();
+            _parent = parent;
         }
 
         public char Symbol { get; private set; }
         public LetterVariants Variants { get; private set; }
         public uint Weight { get; private set; }
         public bool IsWord { get; private set; }
+
+        public string Word
+        {
+            get
+            {
+                if(_parent != null)
+                {
+                    return _parent.Word + Symbol;
+                }
+                return Symbol.ToString();
+            }
+        }
 
         public void DeclareWord()
         {

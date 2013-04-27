@@ -13,20 +13,20 @@ namespace WordsFrequency.WordTree
             get { return _nodes; }
         }
 
-        public void AddWord(WordIterator wordIterator, uint weight)
+        public void AddWord(WordIterator wordIterator, uint weight, LetterNode parent = null)
         {
             wordIterator.Next();
             var symbol = wordIterator.Current;
             var node = _nodes.FirstOrDefault(n => n.Symbol == symbol);
             if (node == null)
             {
-                node = new LetterNode(symbol);
+                node = new LetterNode(symbol, parent);
                 _nodes.Add(node);
             }
             node.TryUpWeight(weight);
             if (wordIterator.HasNext)
             {
-                node.Variants.AddWord(wordIterator, weight);
+                node.Variants.AddWord(wordIterator, weight, node);
             }
             else
             {
