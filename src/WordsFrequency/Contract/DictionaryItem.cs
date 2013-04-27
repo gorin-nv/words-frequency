@@ -1,4 +1,4 @@
-﻿namespace WordsFrequency
+﻿namespace WordsFrequency.Contract
 {
     public class DictionaryItem
     {
