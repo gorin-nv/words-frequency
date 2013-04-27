@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using WordsFrequency.WordTree;
 
-namespace WordsFrequency.WordTree
+namespace WordsFrequency.Impl
 {
     public class NodeStorage
     {
@@ -21,8 +22,8 @@ namespace WordsFrequency.WordTree
                 _nodes.Add(node);
                 return;
             }
-            var minimalNode = _nodes.OrderBy(n => n.Weight).First();
-            if(node.Weight > minimalNode.Weight)
+            var minimalNode = _nodes.OrderBy(n => n.WordWeight).First();
+            if (node.WordWeight > minimalNode.WordWeight)
             {
                 _nodes.Remove(minimalNode);
                 _nodes.Add(node);

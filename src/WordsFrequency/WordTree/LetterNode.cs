@@ -1,48 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WordsFrequency.WordTree
 {
-    public class LetterNode
+    public class LetterNode: TreeNode
     {
-        private LetterNode _parent;
+        private readonly LetterNode _parent;
 
-        public LetterNode(char symbol, LetterNode parent = null)
+        public LetterNode(char symbol, LetterNode parent)
         {
             Symbol = symbol;
-            Variants = new LetterVariants();
             _parent = parent;
         }
 
+        public LetterNode(char symbol)
+            : this(symbol, null)
+        {
+        }
+
         public char Symbol { get; private set; }
-        public LetterVariants Variants { get; private set; }
-        public uint Weight { get; private set; }
-        public bool IsWord { get; private set; }
+        public uint VariantsWeight { get; private set; }
+        public uint WordWeight { get; private set; }
+
+        public bool IsWord
+        {
+            get { return WordWeight > 0; }
+        }
 
         public string Word
         {
             get
             {
-                if(_parent != null)
+                var current = this;
+                var chars = new List<char>();
+                while (current != null)
                 {
-                    return _parent.Word + Symbol;
+                    chars.Add(current.Symbol);
+                    current = current._parent;
                 }
-                return Symbol.ToString();
+                chars.Reverse();
+                return new string(chars.ToArray());
             }
         }
 
-        public void DeclareWord()
+        public void DeclareWord(uint selfWeight)
         {
             if (IsWord)
                 throw new Exception("дублирование слова");
-            IsWord = true;
+            WordWeight = selfWeight;
         }
 
-        public void TryUpWeight(uint weight)
+        public void TryUpVariantsWeight(uint weight)
         {
-            if (Weight < weight)
+            if (VariantsWeight < weight)
             {
-                Weight = weight;
+                VariantsWeight = weight;
             }
+        }
+
+        protected override LetterNode CreateChild(char symbol)
+        {
+            return new LetterNode(symbol, this);
         }
     }
 }
