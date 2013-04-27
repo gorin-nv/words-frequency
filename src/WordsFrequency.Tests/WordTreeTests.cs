@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using WordsFrequency.WordTree;
@@ -15,7 +16,7 @@ namespace WordsFrequency.Tests
             
             root.AddWord("", 0);
 
-            root.Variants.IsEmpty.Should().BeTrue();
+            root.Variants.Nodes.Should().BeEmpty();
         }
 
         [Test]
@@ -25,8 +26,7 @@ namespace WordsFrequency.Tests
 
             root.AddWord("a", 5);
 
-            root.Variants.ContainsKey('a').Should().BeTrue();
-            root.Variants['a'].Weight.Should().Be(5);
+            root.Variants.Nodes.Single(n => n.Symbol == 'a').Weight.Should().Be(5);
         }
 
         [Test]
@@ -37,8 +37,7 @@ namespace WordsFrequency.Tests
 
             root.AddWord("ab", 10);
 
-            root.Variants.ContainsKey('a').Should().BeTrue();
-            root.Variants['a'].Weight.Should().Be(5+10);
+            root.Variants.Nodes.Single(n => n.Symbol == 'a').Weight.Should().Be(10);
         }
 
         [Test]
@@ -49,18 +48,15 @@ namespace WordsFrequency.Tests
 
             root.AddWord("abc", 10);
 
-            root.Variants.ContainsKey('a').Should().BeTrue();
-            var a = root.Variants['a'];
-            a.Weight.Should().Be(5+10);
+            var a = root.Variants.Nodes.Single(n => n.Symbol == 'a');
+            a.Weight.Should().Be(10);
 
-            a.Variants.ContainsKey('b').Should().BeTrue();
-            var ab = a.Variants['b'];
+            var ab = a.Variants.Nodes.Single(n => n.Symbol == 'b');
             ab.Weight.Should().Be(10);
 
-            ab.Variants.ContainsKey('c').Should().BeTrue();
-            var abc = ab.Variants['c'];
+            var abc = ab.Variants.Nodes.Single(n => n.Symbol == 'c');
             abc.Weight.Should().Be(10);
-            abc.Variants.IsEmpty.Should().BeTrue();
+            abc.Variants.Nodes.Should().BeEmpty();
         }
 
         [Test]
@@ -68,7 +64,9 @@ namespace WordsFrequency.Tests
         {
             var root = new Root();
             root.AddWord("abc", 5);
-            var expectedNode = root.Variants['a'].Variants['b'];
+            var expectedNode = root
+                .Variants.Nodes.Single(n => n.Symbol == 'a')
+                .Variants.Nodes.Single(n => n.Symbol == 'b');
 
             var actualNode = root.FindNodeForPrefix("ab");
 
@@ -82,7 +80,9 @@ namespace WordsFrequency.Tests
             var root = new Root();
             root.AddWord("abc", 5);
 
-            root.FindNodeForPrefix(prefix).Should().Be(null);
+            var nodeForPrefix = root.FindNodeForPrefix(prefix);
+
+            nodeForPrefix.Should().Be(null);
         }
     }
 }

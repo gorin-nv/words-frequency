@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace WordsFrequency.WordTree
 {
@@ -9,6 +10,8 @@ namespace WordsFrequency.WordTree
 
         public WordIterator(string word)
         {
+            if(word.Any(c => !Char.IsLetter(c)))
+                throw  new Exception("слово должно быть только из букв");
             _word = word;
             _current = -1;
         }
@@ -24,7 +27,7 @@ namespace WordsFrequency.WordTree
             {
                 if (_current == -1)
                     throw new Exception("ошибка обхода слова");
-                return _word[_current];
+                return Char.ToLower(_word[_current]);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WordsFrequency.Contract;
 using WordsFrequency.WordTree;
 
@@ -26,7 +27,26 @@ namespace WordsFrequency.Impl
                 return new string[0];
             }
 
-            throw new System.NotImplementedException();
+            var storage = new NodeStorage(query.MaximumVarinatsCount);
+            if(prefixNode.IsWord)
+            {
+                storage.Add(prefixNode);
+            }
+            var prevNodes = new List<LetterNode> {prefixNode};
+            while (prevNodes.Count > 0)
+            {
+                var nodes = prevNodes
+                    .SelectMany(n => n.Variants.Nodes)
+                    .OrderByDescending(n => n.Weight)
+                    .Take((int) query.MaximumVarinatsCount)
+                    .ToList();
+                foreach (var node in nodes.Where(n => n.IsWord))
+                {
+                    storage.Add(node);
+                }
+                prevNodes = nodes;
+            }
+            return storage.Words.Select(n => "");
         }
     }
 }

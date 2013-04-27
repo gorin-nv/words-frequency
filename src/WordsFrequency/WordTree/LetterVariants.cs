@@ -1,46 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WordsFrequency.WordTree
 {
     public class LetterVariants
     {
-        private readonly Dictionary<char, LetterNode> _nodes = new Dictionary<char, LetterNode>();
+        private readonly List<LetterNode> _nodes = new List<LetterNode>();
 
-        public LetterNode this[char key]
+        public IEnumerable<LetterNode> Nodes
         {
-            get { return _nodes[key]; }
+            get { return _nodes; }
         }
 
-        public bool TryGetNode(char key, out LetterNode node)
-        {
-            return _nodes.TryGetValue(key, out node);
-        }
-
-        public bool ContainsKey(char key)
-        {
-            return _nodes.ContainsKey(key);
-        }
-
-        public bool IsEmpty
-        {
-            get { return _nodes.Count == 0; }
-        }
-
-        public void AddWord(WordIterator wordIterator, uint count)
+        public void AddWord(WordIterator wordIterator, uint weight)
         {
             wordIterator.Next();
-            var key = wordIterator.Current;
-            LetterNode node;
-            if (_nodes.TryGetValue(key, out node) == false)
+            var symbol = wordIterator.Current;
+            var node = _nodes.FirstOrDefault(n => n.Symbol == symbol);
+            if (node == null)
             {
-                node = new LetterNode();
-                _nodes[key] = node;
+                node = new LetterNode(symbol);
+                _nodes.Add(node);
             }
-            node.AddWeight(count);
+            node.TryUpWeight(weight);
             if (wordIterator.HasNext)
             {
-                node.Variants.AddWord(wordIterator, count);
+                node.Variants.AddWord(wordIterator, weight);
+            }
+            else
+            {
+                node.DeclareWord();
             }
         }
 
@@ -48,16 +38,12 @@ namespace WordsFrequency.WordTree
         {
             wordIterator.Next();
             var key = wordIterator.Current;
-            LetterNode node;
-            if (_nodes.TryGetValue(key, out node) == false)
-            {
-                return null;
-            }
-            if (wordIterator.HasNext == false)
-            {
-                return node;
-            }
-            return node.Variants.FindNode(wordIterator);
+            var node = _nodes.FirstOrDefault(n => n.Symbol == key);
+            return node == null
+                       ? null
+                       : wordIterator.HasNext
+                             ? node.Variants.FindNode(wordIterator)
+                             : node;
         }
     }
 }
