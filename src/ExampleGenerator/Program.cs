@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ExampleGenerator
@@ -9,6 +10,8 @@ namespace ExampleGenerator
     {
         static void Main()
         {
+            var x = RomajiSyllabary.Values;
+
             var fileName = GetFullFileName("input.txt");
             if(File.Exists(fileName))
             {
@@ -52,15 +55,19 @@ namespace ExampleGenerator
 
         private static string GenerateWord(Random random, int maxLength)
         {
-            const string chars = "aiueokstnhmrgjdbpyw";
             var builder = new StringBuilder();
-            var length = random.Next(1, maxLength + 1);
-            for (var i = 0; i < length; i++)
+            var lengthLeft = random.Next(1, maxLength + 1);
+            do
             {
-                var symbolIndex = random.Next(0, chars.Length);
-                var symbol = chars[symbolIndex];
-                builder.Append(symbol);
-            }
+                var availibleSyllables = RomajiSyllabary.Values.Where(v => v.Length <= lengthLeft).ToList();
+                var syllableIndex = random.Next(0, availibleSyllables.Count());
+                var syllable = availibleSyllables[syllableIndex];
+                if (syllable.Length > lengthLeft)
+                    continue;
+                builder.Append(syllable);
+                lengthLeft -= syllable.Length;
+
+            } while (lengthLeft > 0);
             return builder.ToString();
         }
 
