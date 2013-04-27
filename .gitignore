@@ -1,0 +1,14 @@
+/src/_ReSharper.WordsFrequency
+/src/WordsAutocomplete/bin
+/src/WordsAutocomplete/obj
+/src/WordsFrequency.sln.DotSettings.user
+/src/WordsFrequency.v11.suo
+/src/WordsFrequency/obj
+/src/WordsFrequency/bin
+/src/WordsFrequency.Tests/obj
+/src/WordsFrequency.Tests/bin
+/src/WordsAutocomplete.Tests/obj
+/src/WordsAutocomplete.Tests/bin
+/src/packages/*
+/src/packages/*
+/src/packages/*
