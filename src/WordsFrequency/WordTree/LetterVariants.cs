@@ -22,14 +22,14 @@ namespace WordsFrequency.WordTree
                 node = new LetterNode(symbol, parent);
                 _nodes.Add(node);
             }
-            node.TryUpWeight(weight);
+            node.TryUpVariantsWeight(weight);
             if (wordIterator.HasNext)
             {
                 node.Variants.AddWord(wordIterator, weight, node);
             }
             else
             {
-                node.DeclareWord();
+                node.DeclareWord(weight);
             }
         }
 

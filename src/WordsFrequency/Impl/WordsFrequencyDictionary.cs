@@ -37,17 +37,23 @@ namespace WordsFrequency.Impl
             {
                 var nodes = prevNodes
                     .SelectMany(n => n.Variants.Nodes)
-                    .OrderByDescending(n => n.Weight)
+                    .OrderByDescending(n => n.VariantsWeight)
                     .Take((int) query.MaximumVarinatsCount)
                     .ToList();
-                foreach (var node in nodes.Where(n => n.IsWord))
+                var wordNodes = prevNodes
+                    .SelectMany(n => n.Variants.Nodes)
+                    .Where(n => n.IsWord)
+                    .OrderByDescending(n => n.WordWeight)
+                    .Take((int)query.MaximumVarinatsCount);
+
+                foreach (var node in wordNodes)
                 {
                     storage.Add(node);
                 }
                 prevNodes = nodes;
             }
             return storage.Words
-                .OrderByDescending(n => n.Weight)
+                .OrderByDescending(n => n.WordWeight)
                 .Select(n => n.Word);
         }
     }

@@ -15,8 +15,13 @@ namespace WordsFrequency.WordTree
 
         public char Symbol { get; private set; }
         public LetterVariants Variants { get; private set; }
-        public uint Weight { get; private set; }
-        public bool IsWord { get; private set; }
+        public uint VariantsWeight { get; private set; }
+        public uint WordWeight { get; private set; }
+
+        public bool IsWord
+        {
+            get { return WordWeight > 0; }
+        }
 
         public string Word
         {
@@ -30,18 +35,18 @@ namespace WordsFrequency.WordTree
             }
         }
 
-        public void DeclareWord()
+        public void DeclareWord(uint selfWeight)
         {
             if (IsWord)
                 throw new Exception("дублирование слова");
-            IsWord = true;
+            WordWeight = selfWeight;
         }
 
-        public void TryUpWeight(uint weight)
+        public void TryUpVariantsWeight(uint weight)
         {
-            if (Weight < weight)
+            if (VariantsWeight < weight)
             {
-                Weight = weight;
+                VariantsWeight = weight;
             }
         }
     }
