@@ -22,7 +22,7 @@ namespace ExampleGenerator
             {
                 const int dictionaryItemsCount = 10000;
                 writer.WriteLine(dictionaryItemsCount);
-                foreach (var word in GetWords(dictionaryItemsCount, 15))
+                foreach (var word in GetWords(dictionaryItemsCount, 15, GenerateWord))
                 {
                     var dictionaryItem = string.Format("{0} {1}", word, word.Length);
                     writer.WriteLine(dictionaryItem);
@@ -30,21 +30,21 @@ namespace ExampleGenerator
 
                 const int wordOpeningsCount = 15000;
                 writer.WriteLine(wordOpeningsCount);
-                foreach (var word in GetWords(wordOpeningsCount, 15))
+                foreach (var word in GetWords(wordOpeningsCount, 15, GenerateWordOpening))
                 {
                     writer.WriteLine(word);
                 }
             }
         }
 
-        private static IEnumerable<string> GetWords(int count, int maxLength)
+        private static IEnumerable<string> GetWords(int count, int maxLength, Func<Random, int, string> exampleFactory)
         {
             var random = new Random(Guid.NewGuid().GetHashCode());
             var returnedWordsCount = 0;
             var returnedWords = new List<string>(count);
             while (returnedWordsCount < count)
             {
-                var word = GenerateWord(random, maxLength);
+                var word = exampleFactory(random, maxLength);
                 if(returnedWords.Contains(word))
                     continue;
                 returnedWords.Add(word);
@@ -69,6 +69,13 @@ namespace ExampleGenerator
 
             } while (lengthLeft > 0);
             return builder.ToString();
+        }
+
+        private static string GenerateWordOpening(Random random, int maxLength)
+        {
+            var word = GenerateWord(random, maxLength);
+            var partSize = random.Next(1, word.Length);
+            return word.Substring(0, partSize);
         }
 
         private static string GetFullFileName(string fileName)
