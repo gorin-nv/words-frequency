@@ -20,12 +20,13 @@ namespace ExampleGenerator
             {
                 const int maxWordLength = 15;
 
+                const int maxWordWeight = 1000 * 1000;
                 const int dictionaryItemsCount = 10000;
                 writer.WriteLine(dictionaryItemsCount);
                 var random = new Random(Guid.NewGuid().GetHashCode());
                 foreach (var word in GetWords(dictionaryItemsCount, maxWordLength, GenerateWord, random))
                 {
-                    var dictionaryItem = string.Format("{0} {1}", word, random.Next(1, maxWordLength+1));
+                    var dictionaryItem = string.Format("{0} {1}", word, random.Next(1, maxWordWeight + 1));
                     writer.WriteLine(dictionaryItem);
                 }
 
