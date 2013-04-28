@@ -10,8 +10,6 @@ namespace ExampleGenerator
     {
         static void Main()
         {
-            var x = RomajiSyllabary.Values;
-
             var fileName = GetFullFileName("input.txt");
             if(File.Exists(fileName))
             {
