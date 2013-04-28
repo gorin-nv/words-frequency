@@ -18,26 +18,28 @@ namespace ExampleGenerator
 
             using (var writer = new StreamWriter(fileName))
             {
+                const int maxWordLength = 15;
+
                 const int dictionaryItemsCount = 10000;
                 writer.WriteLine(dictionaryItemsCount);
-                foreach (var word in GetWords(dictionaryItemsCount, 15, GenerateWord))
+                var random = new Random(Guid.NewGuid().GetHashCode());
+                foreach (var word in GetWords(dictionaryItemsCount, maxWordLength, GenerateWord, random))
                 {
-                    var dictionaryItem = string.Format("{0} {1}", word, word.Length);
+                    var dictionaryItem = string.Format("{0} {1}", word, random.Next(1, maxWordLength+1));
                     writer.WriteLine(dictionaryItem);
                 }
 
                 const int wordOpeningsCount = 15000;
                 writer.WriteLine(wordOpeningsCount);
-                foreach (var word in GetWords(wordOpeningsCount, 15, GenerateWordOpening))
+                foreach (var word in GetWords(wordOpeningsCount, maxWordLength, GenerateWordOpening, random))
                 {
                     writer.WriteLine(word);
                 }
             }
         }
 
-        private static IEnumerable<string> GetWords(int count, int maxLength, Func<Random, int, string> exampleFactory)
+        private static IEnumerable<string> GetWords(int count, int maxLength, Func<Random, int, string> exampleFactory, Random random)
         {
-            var random = new Random(Guid.NewGuid().GetHashCode());
             var returnedWordsCount = 0;
             var returnedWords = new List<string>(count);
             while (returnedWordsCount < count)
