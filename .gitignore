@@ -14,3 +14,7 @@
 /src/packages/*
 /src/ExampleGenerator/bin
 /src/ExampleGenerator/obj
+/src/DictionaryClient/bin
+/src/DictionaryClient/obj
+/src/DictionaryServer/obj
+/src/DictionaryServer/bin
