@@ -24,3 +24,5 @@
 /src/WordFrequency.Utils/bin
 /src/WordFrequency.Utils.Tests/bin
 /src/WordFrequency.Utils.Tests/obj
+/src/DictionaryClient/*.user
+/src/DictionaryServer/*.user
