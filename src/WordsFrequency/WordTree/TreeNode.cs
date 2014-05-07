@@ -13,7 +13,7 @@ namespace WordsFrequency.WordTree
             get { return _nodes; }
         }
 
-        public void AddWord(WordIterator wordIterator, uint weight)
+        public void AddWord(WordIterator wordIterator, int weight)
         {
             wordIterator.Next();
             var symbol = wordIterator.Current;

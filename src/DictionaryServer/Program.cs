@@ -1,38 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using WordFrequency.Utils.Data;
+using WordFrequency.Utils.TextGateway;
+using WordsFrequency.Contract;
+using WordsFrequency.Impl;
 
 namespace DictionaryServer
 {
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            var listener = new TcpListener(IPAddress.Any, 9050);
+            if (args.Length < 2)
+            {
+                Console.WriteLine("требуется имя файла и номер порта");
+                return;
+            }
+
+            var fileName = args[0];
+            if (!File.Exists(fileName))
+            {
+                Console.WriteLine("файл \"{0}\" не найден", fileName);
+                return;
+            }
+
+            int port;
+            if (!int.TryParse(args[1], out port))
+            {
+                Console.WriteLine("некорректный номер порта \"{0}\"", port);
+                return;
+            }
+
+            var dataSource = new DataSource(new Lazy<ITextInputGateway>(() => new FileInputGateway(fileName)));
+            var dictionary = new WordsFrequencyDictionary();
+            foreach (var dictionaryItem in dataSource.GetDictionaryItems())
+            {
+                dictionary.AddWord(dictionaryItem);
+            }
+            var listener = new TcpListener(IPAddress.Any, port);
             try
             {
-                var active = true;
-                var inProcess = false;
                 listener.Start();
                 var thread = new Thread(() =>
                 {
-                    while (active)
+                    while (true)
                     {
                         var client = listener.AcceptTcpClient();
-                        inProcess = true;
-                        ThreadPool.QueueUserWorkItem(ThreadProc, client);
-                        inProcess = false;
+                        ThreadPool.QueueUserWorkItem(ThreadProc, new RequestContext(client, dictionary));
                     }
                 });
                 thread.Start();
                 Console.ReadLine();
-                active = false;
-                while (inProcess)
-                {
-                }
                 thread.Abort();
             }
             finally
@@ -43,18 +65,51 @@ namespace DictionaryServer
 
         private static void ThreadProc(object state)
         {
-            var client = (TcpClient) state;
-            var inputBuf = new byte[1024];
-            var inputLenght = client.GetStream().Read(inputBuf, 0, inputBuf.Length);
-            var input = Encoding.ASCII.GetString(inputBuf, 0, inputLenght);
+            var context = (RequestContext) state;
 
-            var text = "hello, " + input;
-            Thread.Sleep(3000);
-            var buffer = Encoding.ASCII.GetBytes(text);
-            client.GetStream().Write(buffer, 0, buffer.Length);
-            client.Close();
+            var client = context.Client;
+            try
+            {
+                var inputBuf = new byte[1024];
+                var inputLenght = client.GetStream().Read(inputBuf, 0, inputBuf.Length);
+                var request = Encoding.ASCII.GetString(inputBuf, 0, inputLenght);
 
-            Console.WriteLine("Client connected");
+                var prefix = GetPrefix(request);
+                const int maxVariants = 10;
+                var query = new WordQuery(prefix, maxVariants);
+                var wordVariants = context.Dictionary.GetWordVariants(query);
+                var response = string.Join(Environment.NewLine, wordVariants);
+
+                var buffer = Encoding.ASCII.GetBytes(response);
+                client.GetStream().Write(buffer, 0, buffer.Length);
+            }
+            finally 
+            {
+                client.Close();
+            }
+        }
+
+        private static string GetPrefix(string request)
+        {
+            const string command = "get ";
+            if(request.StartsWith(command))
+            {
+                var prefix = request.Remove(0, command.Length);
+                return prefix;
+            }
+            return string.Empty;
+        }
+
+        private class RequestContext
+        {
+            public RequestContext(TcpClient client, WordsFrequencyDictionary dictionary)
+            {
+                Client = client;
+                Dictionary = dictionary;
+            }
+
+            public TcpClient Client { get; private set; }
+            public WordsFrequencyDictionary Dictionary { get; private set; }
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using WordsAutocomplete.Data;
+using WordFrequency.Utils.Data;
 using WordsFrequency.Contract;
 
 namespace WordsAutocomplete.Tests

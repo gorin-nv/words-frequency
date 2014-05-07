@@ -33,7 +33,7 @@ namespace WordsFrequency.Impl
                 return new string[0];
             }
 
-            var storage = new NodeStorage(query.MaximumVarinatsCount);
+            var storage = new LimittedNodeStorage(query.MaximumVarinatsCount);
             if(prefixNode.IsWord)
             {
                 storage.Add(prefixNode);

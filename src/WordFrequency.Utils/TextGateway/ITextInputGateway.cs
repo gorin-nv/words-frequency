@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WordsAutocomplete.TextGateway
+namespace WordFrequency.Utils.TextGateway
 {
     public interface ITextInputGateway : IDisposable
     {

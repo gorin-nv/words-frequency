@@ -37,21 +37,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertionScenario.cs" />
-    <Compile Include="Data\DataDestination.cs" />
-    <Compile Include="Data\IDataDestination.cs" />
-    <Compile Include="Data\IDataSource.cs" />
-    <Compile Include="TextGateway\FileOutputGateway.cs" />
-    <Compile Include="TextGateway\FileInputGateway.cs" />
-    <Compile Include="TextGateway\ITextOutputGateway.cs" />
-    <Compile Include="TextGateway\ITextInputGateway.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Data\DataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\WordFrequency.Utils\WordFrequency.Utils.csproj">
+      <Project>{39E9889A-4CE8-4777-B9E9-8A12E632120D}</Project>
+      <Name>WordFrequency.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WordsFrequency\WordsFrequency.csproj">
       <Project>{d93edb5b-568b-40f1-8a29-ac7538ca5a79}</Project>
       <Name>WordsFrequency</Name>

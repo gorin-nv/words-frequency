@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using WordsFrequency.Impl;
 using WordsFrequency.WordTree;
 
 namespace WordsFrequency.Tests

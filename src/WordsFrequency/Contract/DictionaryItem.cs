@@ -2,13 +2,13 @@
 {
     public class DictionaryItem
     {
-        public DictionaryItem(string word, uint count)
+        public DictionaryItem(string word, int count)
         {
             Word = word;
             Count = count;
         }
 
         public string Word { get; private set; }
-        public uint Count { get; private set; }
+        public int Count { get; private set; }
     }
 }

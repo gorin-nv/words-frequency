@@ -3,10 +3,10 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using WordsAutocomplete.Data;
-using WordsAutocomplete.TextGateway;
+using WordFrequency.Utils.Data;
+using WordFrequency.Utils.TextGateway;
 
-namespace WordsAutocomplete.Tests
+namespace WordFrequency.Utils.Tests
 {
     [TestFixture]
     public class DataSourceTests
