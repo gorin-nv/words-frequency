@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace WordsAutocomplete.TextGateway
+namespace WordFrequency.Utils.TextGateway
 {
-    internal class FileInputGateway : ITextInputGateway
+    public class FileInputGateway : ITextInputGateway
     {
         private readonly StreamReader _reader;
 

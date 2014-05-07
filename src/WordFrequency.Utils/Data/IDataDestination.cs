@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WordsAutocomplete.Data
+namespace WordFrequency.Utils.Data
 {
     public interface IDataDestination : IDisposable
     {

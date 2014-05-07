@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WordsAutocomplete.TextGateway;
+using WordFrequency.Utils.TextGateway;
 using WordsFrequency.Contract;
 
-namespace WordsAutocomplete.Data
+namespace WordFrequency.Utils.Data
 {
     public class DataSource : IDataSource
     {
@@ -71,10 +71,11 @@ namespace WordsAutocomplete.Data
         private DictionaryItem ConvertToDictionaryItem(string dictionaryItemRaw)
         {
             var parts = dictionaryItemRaw.Split(new[] { ' ' });
-            uint count;
+            int count;
             if (parts.Length != 2 ||
                 parts[0].All(Char.IsLetter) == false ||
-                uint.TryParse(parts[1], out count) == false)
+                int.TryParse(parts[1], out count) == false ||
+                count <= 0)
                 throw new Exception(CreateErrorMessage("в строке частотного словаря должно быть слово и количество использований слова, разделенные пробелом"));
             return new DictionaryItem(parts[0], count);
         }

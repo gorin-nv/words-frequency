@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using WordsFrequency.Contract;
 
-namespace WordsAutocomplete.Data
+namespace WordFrequency.Utils.Data
 {
     public interface IDataSource: IDisposable
     {

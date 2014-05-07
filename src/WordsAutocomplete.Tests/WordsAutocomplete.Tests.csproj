@@ -35,9 +35,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\packages\FluentAssertions.2.0.1\lib\net45\FluentAssertions.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -46,13 +43,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertionScenarioTests.cs" />
-    <Compile Include="DataDestinationTests.cs" />
-    <Compile Include="DataSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +54,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WordFrequency.Utils\WordFrequency.Utils.csproj">
+      <Project>{39E9889A-4CE8-4777-B9E9-8A12E632120D}</Project>
+      <Name>WordFrequency.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WordsAutocomplete\WordsAutocomplete.csproj">
       <Project>{d6e0ffdf-1fb1-4953-b483-f13e417bd75a}</Project>
       <Name>WordsAutocomplete</Name>

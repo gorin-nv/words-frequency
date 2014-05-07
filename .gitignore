@@ -14,3 +14,15 @@
 /src/packages/*
 /src/ExampleGenerator/bin
 /src/ExampleGenerator/obj
+/src/DictionaryClient/bin
+/src/DictionaryClient/obj
+/src/DictionaryServer/obj
+/src/DictionaryServer/bin
+/src/DictionaryConsole/obj
+/src/DictionaryConsole/bin
+/src/WordFrequency.Utils/obj
+/src/WordFrequency.Utils/bin
+/src/WordFrequency.Utils.Tests/bin
+/src/WordFrequency.Utils.Tests/obj
+/src/DictionaryClient/*.user
+/src/DictionaryServer/*.user

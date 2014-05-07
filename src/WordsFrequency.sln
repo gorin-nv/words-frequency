@@ -18,6 +18,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{427141
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGenerator", "ExampleGenerator\ExampleGenerator.csproj", "{82632D00-E20B-4D21-8884-77EDBA229B13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryServer", "DictionaryServer\DictionaryServer.csproj", "{3C537D66-C37B-4491-9F4A-36A2CD442860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryClient", "DictionaryClient\DictionaryClient.csproj", "{C036FFCF-BC02-40C5-A5C2-B4346B637793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryConsole", "DictionaryConsole\DictionaryConsole.csproj", "{EE686493-5EAC-432A-88DD-5FD64D85EF46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordFrequency.Utils", "WordFrequency.Utils\WordFrequency.Utils.csproj", "{39E9889A-4CE8-4777-B9E9-8A12E632120D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordFrequency.Utils.Tests", "WordFrequency.Utils.Tests\WordFrequency.Utils.Tests.csproj", "{0B517BB1-3AAF-4694-B313-57D0080FB50D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +54,26 @@ Global
 		{82632D00-E20B-4D21-8884-77EDBA229B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82632D00-E20B-4D21-8884-77EDBA229B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82632D00-E20B-4D21-8884-77EDBA229B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C537D66-C37B-4491-9F4A-36A2CD442860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C537D66-C37B-4491-9F4A-36A2CD442860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C537D66-C37B-4491-9F4A-36A2CD442860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C537D66-C37B-4491-9F4A-36A2CD442860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C036FFCF-BC02-40C5-A5C2-B4346B637793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C036FFCF-BC02-40C5-A5C2-B4346B637793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C036FFCF-BC02-40C5-A5C2-B4346B637793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C036FFCF-BC02-40C5-A5C2-B4346B637793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE686493-5EAC-432A-88DD-5FD64D85EF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE686493-5EAC-432A-88DD-5FD64D85EF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE686493-5EAC-432A-88DD-5FD64D85EF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE686493-5EAC-432A-88DD-5FD64D85EF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E9889A-4CE8-4777-B9E9-8A12E632120D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E9889A-4CE8-4777-B9E9-8A12E632120D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E9889A-4CE8-4777-B9E9-8A12E632120D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E9889A-4CE8-4777-B9E9-8A12E632120D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B517BB1-3AAF-4694-B313-57D0080FB50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B517BB1-3AAF-4694-B313-57D0080FB50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B517BB1-3AAF-4694-B313-57D0080FB50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B517BB1-3AAF-4694-B313-57D0080FB50D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

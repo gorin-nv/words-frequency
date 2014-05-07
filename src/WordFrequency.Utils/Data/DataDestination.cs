@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using WordsAutocomplete.TextGateway;
+using WordFrequency.Utils.TextGateway;
 
-namespace WordsAutocomplete.Data
+namespace WordFrequency.Utils.Data
 {
     public class DataDestination : IDataDestination
     {

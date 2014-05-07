@@ -7,20 +7,15 @@ namespace WordsFrequency.WordTree
     {
         private readonly LetterNode _parent;
 
-        public LetterNode(char symbol, LetterNode parent)
+        public LetterNode(char symbol, LetterNode parent = null)
         {
             Symbol = symbol;
             _parent = parent;
         }
 
-        public LetterNode(char symbol)
-            : this(symbol, null)
-        {
-        }
-
         public char Symbol { get; private set; }
-        public uint VariantsWeight { get; private set; }
-        public uint WordWeight { get; private set; }
+        public int VariantsWeight { get; private set; }
+        public int WordWeight { get; private set; }
 
         public bool IsWord
         {
@@ -43,14 +38,14 @@ namespace WordsFrequency.WordTree
             }
         }
 
-        public void DeclareWord(uint selfWeight)
+        public void DeclareWord(int selfWeight)
         {
             if (IsWord)
                 throw new Exception("дублирование слова");
             WordWeight = selfWeight;
         }
 
-        public void TryUpVariantsWeight(uint weight)
+        public void TryUpVariantsWeight(int weight)
         {
             if (VariantsWeight < weight)
             {

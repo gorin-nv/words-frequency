@@ -1,5 +1,5 @@
 ﻿using System;
-using WordsAutocomplete.Data;
+using WordFrequency.Utils.Data;
 using WordsFrequency.Contract;
 
 namespace WordsAutocomplete

@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace WordsAutocomplete.TextGateway
+namespace WordFrequency.Utils.TextGateway
 {
-    internal class FileOutputGateway : ITextOutputGateway
+    public class FileOutputGateway : ITextOutputGateway
     {
         private readonly StreamWriter _writer;
 
