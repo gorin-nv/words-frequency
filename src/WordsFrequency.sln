@@ -9,13 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsFrequency.Tests", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsAutocomplete.Tests", "WordsAutocomplete.Tests\WordsAutocomplete.Tests.csproj", "{C347D5FF-9F44-4434-B2DD-4943F8D9F3A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4271413A-565B-4238-B5F2-27C4CB4A7676}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGenerator", "ExampleGenerator\ExampleGenerator.csproj", "{82632D00-E20B-4D21-8884-77EDBA229B13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryServer", "DictionaryServer\DictionaryServer.csproj", "{3C537D66-C37B-4491-9F4A-36A2CD442860}"
