@@ -45,6 +45,7 @@ namespace DictionaryServer
             try
             {
                 listener.Start();
+                Console.WriteLine("сервер запущен");
                 var thread = new Thread(() =>
                 {
                     while (true)
@@ -74,11 +75,19 @@ namespace DictionaryServer
                 var inputLenght = client.GetStream().Read(inputBuf, 0, inputBuf.Length);
                 var request = Encoding.ASCII.GetString(inputBuf, 0, inputLenght);
 
+                string response;
                 var prefix = GetPrefix(request);
-                const int maxVariants = 10;
-                var query = new WordQuery(prefix, maxVariants);
-                var wordVariants = context.Dictionary.GetWordVariants(query);
-                var response = string.Join(Environment.NewLine, wordVariants);
+                if (string.IsNullOrEmpty(prefix))
+                {
+                    response = string.Empty;
+                }
+                else
+                {
+                    const int maxVariants = 10;
+                    var query = new WordQuery(prefix, maxVariants);
+                    var wordVariants = context.Dictionary.GetWordVariants(query);
+                    response = string.Join(Environment.NewLine, wordVariants);
+                }
 
                 var buffer = Encoding.ASCII.GetBytes(response);
                 client.GetStream().Write(buffer, 0, buffer.Length);

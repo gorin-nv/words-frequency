@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 
 namespace DictionaryClient
 {
@@ -14,12 +13,7 @@ namespace DictionaryClient
                 return;
             }
 
-            var fileName = args[0];
-            if (!File.Exists(fileName))
-            {
-                Console.WriteLine("файл \"{0}\" не найден", fileName);
-                return;
-            }
+            var address = args[0];
 
             int port;
             if (!int.TryParse(args[1], out port))
@@ -28,14 +22,16 @@ namespace DictionaryClient
                 return;
             }
 
+            var gateway = new ServerGateway(address, port);
             while (true)
             {
                 var input = Console.ReadLine();
-                var gateway = new ServerGateway("127.0.0.1", port);
+                if (string.IsNullOrEmpty(input))
+                    continue;
                 var responce = gateway.Request(input);
                 if (responce.HasError)
                 {
-                    Console.WriteLine("id=" + id + ": server error: " + responce.Error);
+                    Console.WriteLine("ошибка сервера: " + responce.Error);
                     Console.WriteLine(responce.Error);
                 }
                 else
